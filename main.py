@@ -26,8 +26,9 @@ def preparations_battle() -> list[BatlleshipGame]:
                               "Pluton", "Anubis", "Ra", "Mercure", "Hermès", "Athéna", "Minerve", "Minerva", "Corrin",
                               "Byleth", "Bastet", "Thor", "Odin", "Grima", "Corren", "Casper", "Pill", "Halt", "Treaty",
                               "Oblige", "Seth", "Théménos", "Cyrus", "Hephaïstos", "Cupidon", "Zorro", "Lefantôme",
-                              "Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita", "Rhea", "Jaden"
-                              "Tincel", "Einstein", "Anankos"]
+                              "Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita", "Rhea", "Jaden",
+                              "Yugi","Tincel", "Einstein", "Anankos", "Flamel", "Daraen", "Ike", "Vulcain", "Demeter", 
+                              "Ceres", "Teal'c", "Carter", "Sephiroth"]
     playeurs: list[BatlleshipGame] = []
 
     for playeur in range(2):
