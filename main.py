@@ -56,4 +56,10 @@ def battle_game(playeurs: list[BatlleshipGame]) -> None:
     playeurs[(i + 1) % 2].victory()
 
 
+def main() -> None:
+    battle_game(preparations_battle())
+
+
+if __name__ == "__main__":
+    main()
 
