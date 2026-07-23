@@ -3,6 +3,7 @@ from secrets import choice
 
 
 def input_playeurs() -> int:
+    """permet de savoir le nombre de joueurs"""
     user = ""
     liste_number_str = [str(i) for i in range(3)]
     while isinstance(user, str):
@@ -10,7 +11,9 @@ def input_playeurs() -> int:
         if user in liste_number_str:
             return int(user)
 
+
 def preparations_battle() -> list[BatlleshipGame]:
+    """préparatifs pour faire la bataille navale"""
     nb_playeur = input_playeurs()
     list_playeur: list[str] = []
     for _ in range(nb_playeur):
@@ -38,6 +41,7 @@ def preparations_battle() -> list[BatlleshipGame]:
 
 
 def battle_game(playeurs: list[BatlleshipGame]) -> None:
+    """programme pour faire la bataille navale"""
     i = choice([0, 1])
 
     while playeurs[i % 2].if_victory():
@@ -57,6 +61,7 @@ def battle_game(playeurs: list[BatlleshipGame]) -> None:
 
 
 def main() -> None:
+    """fonction principale du programme"""
     battle_game(preparations_battle())
 
 
