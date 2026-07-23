@@ -78,7 +78,6 @@ class BatlleshipGame:
         """permet de vérifier si un navire adverse a été touché"""
         if self.figther.map_battle.loc[coor[0], coor[1]] != " ":
             ship_name: str = self.figther.map_battle.loc[coor[0], coor[1]]
-            print()
             ship = [ship for ship in self.figther.list_Ships if ship.name == ship_name][0]
             ship.ship_touch(coor)
             self.player.map_battle.loc[coor[0], coor[1]] = "^"
@@ -91,7 +90,7 @@ class BatlleshipGame:
 
     def if_victory(self: Self) -> bool:
         """servira pour vérifier sur le while que tout les bateaux adverses ont été coulés"""
-        return self.player.find_coor("^") != self.figther.find_not_coor(" ")
+        return sorted(self.player.find_coor(".")) != sorted(self.figther.find_not_coor(" "))
 
     def victory(self: Self) -> None:
         """affiche la victoire du joueur"""
