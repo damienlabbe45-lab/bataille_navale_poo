@@ -4,6 +4,7 @@ from typing import Self, Any
 
 
 class Seabattle(DataFrame, LogErreur):
+    """classe pour faire la grille des coups des joueurs ou des ordinateurs"""
     def __init__(self: Self, name: str) -> None:
         from string import ascii_uppercase
         self.map_battle = DataFrame(data=" ", index=range(1, 11), columns=list(ascii_uppercase[:10]))
@@ -36,11 +37,13 @@ class Seabattle(DataFrame, LogErreur):
 
 
 class Ship:
+    """classe des bateaux"""
     def __init__(self: Self, name: str, coor: list[tuple[int, str]]) -> None:
         self.name = name
         self.coor = coor
 
     def ship_touch(self: Self, coor: tuple[Any, Any]) -> None:
+        """permet de savoir si le navire a été touché ou coulé"""
         if coor in self.coor:
             print(f"{self.name} a été touché")
             self.coor.remove(coor)
@@ -49,6 +52,7 @@ class Ship:
 
 
 class Matrixbatlleship(Seabattle):
+    """classe pour mettre les bateaux"""
     def __init__(self: Self, name: str, list_ships: list[str]) -> None:
         super().__init__(name)
         self.list_Ships: list[Ship] = []
