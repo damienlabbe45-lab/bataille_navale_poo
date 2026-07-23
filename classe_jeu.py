@@ -3,11 +3,13 @@ from classes_de_base import Seabattle, Matrixbatlleship
 
 
 class BatlleshipGame:
+    """classe qui servira pour le joueur ou l'ordinateur sans possibilité de tricher"""
     def __init__(self: Self, name_playeur: str, ship_names: list[str], name_figther: str) -> None:
         self.playeur = Seabattle(name_playeur)
         self.figther = Matrixbatlleship(name_figther, ship_names)
 
     def choice_computer(self: Self) -> None:
+        """choix de l'ordinateur pour saisir une coordonnée"""
         from secrets import choice
         coors = self.playeur.find_coor("^")
         dict_string_number = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "J": 10}
@@ -51,6 +53,7 @@ class BatlleshipGame:
         self.touch_ship(tuple(number, user_input[0]))
 
     def touch_ship(self: Self, coor: tuple[int, str]) -> None:
+        """permet de vérifier si un navire adverse a été touché"""
         if self.figther.map_battle.loc[coor[0], coor[1]] != " ":
             ship_name = self.figther.map_battle.loc[coor[0], coor[1]]
             ship = [ship for ship in self.figther.list_Ships if ship.name == ship_name][0]
@@ -64,7 +67,9 @@ class BatlleshipGame:
             self.playeur.map_battle.loc[coor[0], coor[1]] = "~"
 
     def if_victory(self: Self) -> bool:
+        """servira pour vérifier sur le while que tout les bateaux adverses ont été coulés"""
         return self.playeur.find_coor("^") != self.figther.find_not_coor(" ")
 
     def victory(self: Self) -> None:
+        """affiche la victoire du joueur"""
         print(f"victoire {self.playeur.alias} !!!!!!")
