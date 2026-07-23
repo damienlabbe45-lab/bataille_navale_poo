@@ -37,4 +37,23 @@ def preparations_battle() -> list[BatlleshipGame]:
     return playeurs
 
 
+def battle_game(playeurs: list[BatlleshipGame]) -> None:
+    i = choice([0, 1])
+
+    while playeurs[i % 2].if_victory():
+        playeur = playeurs[i % 2]
+        print(f" c'est à vous {playeur.playeur.alias}")
+        print(playeur.playeur.map_battle)
+
+        if "\n" in playeur.playeur.name:
+            playeur.choice_computer()
+
+        else:
+            playeur.choice_human()
+
+        i += 1
+
+    playeurs[(i + 1) % 2].victory()
+
+
 
