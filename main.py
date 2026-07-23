@@ -7,7 +7,7 @@ def input_playeurs() -> int:
     user = ""
     liste_number_str = [str(i) for i in range(3)]
     while isinstance(user, str):
-        user = input("Veillez entre le nombre de joueur (entre 0 et 2 inclus")
+        user = input("Veillez entre le nombre de joueur (entre 0 et 2 inclus)\n")
         if user in liste_number_str:
             return int(user)
 
@@ -34,27 +34,23 @@ def preparations_battle() -> list[BatlleshipGame]:
             ship = choice(ships_names)
             ships_playeur.append(ship)
             ships_names.remove(ship)
-
         playeurs.append(BatlleshipGame(list_playeur[playeur], ships_playeur, list_playeur[playeur - 1]))
-
     return playeurs
 
 
 def battle_game(playeurs: list[BatlleshipGame]) -> None:
     """programme pour faire la bataille navale"""
     i = choice([0, 1])
-
     while playeurs[i % 2].if_victory():
         playeur = playeurs[i % 2]
-        print(f" c'est à vous {playeur.playeur.alias}")
-        print(playeur.playeur.map_battle)
+        print(f" c'est à vous {playeur.player.alias}")
+        print(playeur.player.map_battle)
 
-        if "\n" in playeur.playeur.name:
+        if "\n" in playeur.player.name:
             playeur.choice_computer()
 
         else:
             playeur.choice_human()
-
         i += 1
 
     playeurs[(i + 1) % 2].victory()
