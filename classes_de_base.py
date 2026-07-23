@@ -1,9 +1,9 @@
 from pandas import DataFrame
 from logs import LogErreur
-from typing import Self, Any
+from typing import Self
 
 
-class Seabattle(DataFrame, LogErreur):
+class Seabattle(LogErreur):
     """classe pour faire la grille des coups des joueurs ou des ordinateurs"""
     def __init__(self: Self, name: str) -> None:
         from string import ascii_uppercase
@@ -42,7 +42,7 @@ class Ship:
         self.name = name
         self.coor = coor
 
-    def ship_touch(self: Self, coor: tuple[Any, Any]) -> None:
+    def ship_touch(self: Self, coor: tuple[int, str]) -> None:
         """permet de savoir si le navire a été touché ou coulé"""
         if coor in self.coor:
             print(f"{self.name} a été touché")
@@ -61,18 +61,18 @@ class Matrixbatlleship(Seabattle):
         from secrets import choice
         for i, ship in enumerate(list_ships):
             length = length_ship[i]
-            coor = self.find_coor("")
-            coords_dangerous = self.find_not_coor("")
-            coor = self.verify_coor(coor, coords_dangerous, 3)
+            coor = self.find_coor(" ")
+            coords_dangerous = self.find_not_coor(" ")
+            coor = self.verify_coor(coor, coords_dangerous, length)
             list_ship = list_dir[:]
             choose_dir = choice(list_ship)
-            if "/n" in self.name:
+            if "\n" in self.name:
                 coor_value = choice(coor)
                 coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
             else:
                 coor_value = self.input_coor(coor)
                 coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
-            self.assign_value(coor_values, str(length))
+            self.assign_value(coor_values, ship)
             self.list_Ships.append(Ship(name=ship, coor=coor_values))
 
     def append_coor(self: Self, coor: tuple[int, str], coors_dangerous: list[tuple[int, str]], direction: str,
@@ -134,11 +134,11 @@ class Matrixbatlleship(Seabattle):
     def input_coor(self: Self, coor: list[tuple[int, str]]) -> tuple[int, str]:
         """demande à l'utilisateur les coordonnées pour mettre un bateau"""
         user_col = ""
-        cols = [cols[1] for cols in coor]
+        cols = set([cols[1] for cols in coor])
         while user_col not in cols:
             user_col = input(f"Veillez donner le nom d'une colonne parmis celles-ci {', '.join(col for col in cols)}")
-        rows = [str(row[0]) for row in coor if user_col == row[0]]
+        rows = set([str(row[0]) for row in coor if user_col == row[1]])
         user_row = ""
         while user_row not in rows:
-            user_col = input(f"Veillez donner le numéro d'une ligne parmis celles-ci {', '.join(row for row in rows)}")
+            user_row = input(f"Veillez donner le numéro d'une ligne parmis celles-ci {', '.join(row for row in rows)}")
         return int(user_row), user_col
