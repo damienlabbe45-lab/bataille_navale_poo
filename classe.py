@@ -28,9 +28,15 @@ class Seabattle(DataFrame, LogErreur):
             row in self.map_battle.index and col in self.map_battle.columns and
             self.map_battle.loc[row, col] != text]
 
+    def assign_value(self: Self, coor: list[tuple[int, str]], value: str) -> None:
+        """met la valeur à toutes les coordonnées dans le dataframe"""
+        for row, col in coor:
+            if row in self.map_battle.index and col in self.map_battle.columns:
+                self.map_battle.loc[row, col] = value
+
 
 class Ship:
-    def __init__(self: Self, name: str, coor: list[tuple[Any, Any]]) -> None:
+    def __init__(self: Self, name: str, coor: list[tuple[int, str]]) -> None:
         self.name = name
         self.coor = coor
 
@@ -45,7 +51,7 @@ class Ship:
 class Matrixbatlleship(Seabattle):
     def __init__(self: Self, name: str, list_ships: list[str]) -> None:
         super().__init__(name)
-        self.list_Ships = []
+        self.list_Ships: list[Ship] = []
         length_ship = [2, 3, 3, 4, 4, 5]
         list_dir = ["haut", "bas", "droite", "gauche"]
         from secrets import choice
@@ -62,7 +68,7 @@ class Matrixbatlleship(Seabattle):
             else:
                 coor_value = self.input_coor(coor)
                 coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
-            self.assign_value(coor_values, str(length_ship[1]))
+            self.assign_value(coor_values, str(length))
             self.list_Ships.append(Ship(name=ship, coor=coor_values))
 
     def append_coor(self: Self, coor: tuple[int, str], coors_dangerous: list[tuple[int, str]], direction: str,
@@ -120,12 +126,6 @@ class Matrixbatlleship(Seabattle):
             if ok_bottom or ok_left or ok_rigth or ok_top:
                 valid_coor.append((row, col))
         return valid_coor
-
-    def assign_value(self: Self, coor: list[tuple[int, str]], value: str) -> None:
-        """met la valeur à toutes les coordonnées dans le dataframe"""
-        for row, col in coor:
-            if row in self.map_battle.index and col in self.map_battle.columns:
-                self.map_battle.loc[row, col] = value
 
     def input_coor(self: Self, coor: list[tuple[int, str]]) -> tuple[int, str]:
         """demande à l'utilisateur les coordonnées pour mettre un bateau"""
