@@ -134,11 +134,11 @@ class Matrixbatlleship(Seabattle):
     def input_coor(self: Self, coor: list[tuple[int, str]]) -> tuple[int, str]:
         """demande à l'utilisateur les coordonnées pour mettre un bateau"""
         user_col = ""
-        cols = set([cols[1] for cols in coor])
+        cols = { str(cols[1]) for cols in coor}
         while user_col not in cols:
-            user_col = input(f"Veillez donner le nom d'une colonne parmis celles-ci {', '.join(col for col in cols)}")
-        rows = set([str(row[0]) for row in coor if user_col == row[1]])
+            user_col = input(f"Veillez donner le nom d'une colonne parmis celles-ci {', '.join(cols)}")
+        rows = {str(row[0]) for row in coor if user_col == row[1]}
         user_row = ""
         while user_row not in rows:
-            user_row = input(f"Veillez donner le numéro d'une ligne parmis celles-ci {', '.join(row for row in rows)}")
+            user_row = input(f"Veillez donner le numéro d'une ligne parmis celles-ci {', '.join(rows)}")
         return int(user_row), user_col
