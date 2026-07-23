@@ -3,4 +3,5 @@
 *.pyc*
 ./.idea/vcs.xml
 /.idea/
+*.log
 
