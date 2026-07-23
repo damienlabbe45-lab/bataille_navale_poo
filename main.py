@@ -24,11 +24,12 @@ def preparations_battle() -> list[BatlleshipGame]:
 
     ships_names: list[str] = ["Jupiter", "Zeus", "Aphrodite", "Vénus", "Marth", "Lucina", "Mars", "Arès", "Hades",
                               "Pluton", "Anubis", "Ra", "Mercure", "Hermès", "Athéna", "Minerve", "Minerva", "Corrin",
-                              "Byleth", "Bastet", "Thor", "Odin", "Grima", "Corren", "Casper", "Pill", "Halt", "Treaty",
-                              "Oblige", "Seth", "Théménos", "Cyrus", "Hephaïstos", "Cupidon", "Zorro", "Lefantôme",
-                              "Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita", "Rhea", "Jaden",
-                              "Yugi","Tincel", "Einstein", "Anankos", "Flamel", "Daraen", "Ike", "Vulcain", "Demeter", 
-                              "Ceres", "Teal'c", "Carter", "Sephiroth"]
+                              "Byleth", "Bastet", "Thor", "Odin", "Grima", "Corren", "Casper", "Oscar","Pill", "Halt", 
+                              "Treaty","Oblige", "Seth", "Théménos", "Cyrus", "Hephaïstos", "Cupidon", "Zorro", 
+                              "Lefantôme","Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita", 
+                              "Rhea", "Jaden","Yugi","Tincel", "Einstein", "Anankos", "Flamel", "Daraen", "Ike", 
+                              "Vulcain", "Demeter", "Ceres", "Teal'c", "Carter", "Sephiroth", "Owain", "Jack", 
+                              "Harikeñ"]
     playeurs: list[BatlleshipGame] = []
 
     for playeur in range(2):
