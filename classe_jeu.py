@@ -1,5 +1,5 @@
 from typing import Self
-from classe import Seabattle, Matrixbatlleship
+from classes_de_base import Seabattle, Matrixbatlleship
 
 
 class BatlleshipGame:
