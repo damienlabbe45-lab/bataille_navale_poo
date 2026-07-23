@@ -77,7 +77,7 @@ class BatlleshipGame:
     def touch_ship(self: Self, coor: tuple[int, str]) -> None:
         """permet de vérifier si un navire adverse a été touché"""
         if self.figther.map_battle.loc[coor[0], coor[1]] != " ":
-            ship_name: str = self.figther.map_battle.loc[coor[0], coor[1]]
+            ship_name: str = str(self.figther.map_battle.loc[coor[0], coor[1]])
             ship = [ship for ship in self.figther.list_Ships if ship.name == ship_name][0]
             ship.ship_touch(coor)
             self.player.map_battle.loc[coor[0], coor[1]] = "^"
