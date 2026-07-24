@@ -58,9 +58,9 @@ class BatlleshipGame:
         else:
             coor = choice(self.player.find_coor(" "))
 
-        self.touch_ship(coor)
+        return coor
 
-    def choice_human(self) -> None:
+    def choice_human(self) -> tuple[int, str]:
         """fonction servant à avoir les inputs du joueur jusqu'à qu'il met des coordonnées valides"""
         number = None
         while number is None:
@@ -72,21 +72,24 @@ class BatlleshipGame:
                 if not (0 < number < 11):
                     number = None
                     print("Veillez mettre un nombre entre 1 et 10 après les colonnes")
-        self.touch_ship((number, user_input[0]))
+        return (number, user_input[0])
 
-    def touch_ship(self: Self, coor: tuple[int, str]) -> None:
+    def touch_ship(self: Self) -> None:
         """permet de vérifier si un navire adverse a été touché"""
-        if self.figther.map_battle.loc[coor[0], coor[1]] != " ":
-            ship_name: str = str(self.figther.map_battle.loc[coor[0], coor[1]])
-            ship = [ship for ship in self.figther.list_Ships if ship.name == ship_name][0]
-            ship.ship_touch(coor)
-            self.player.map_battle.loc[coor[0], coor[1]] = "^"
-            if len(ship.coor) == 0:
-                coors = self.figther.find_coor(ship_name)
-                self.player.assign_value(coors, ".")
-        else:
-            print(f"loupé {self.player.alias}")
-            self.player.map_battle.loc[coor[0], coor[1]] = "~"
+        for _ in range(self.figther.sumshot):
+            print(self.player.map_battle)
+            coor = self.choice_computer() if "\n" in self.player.name else self.choice_human()
+            if self.figther.map_battle.loc[coor[0], coor[1]] != " ":
+                ship_name: str = str(self.figther.map_battle.loc[coor[0], coor[1]])
+                ship = [ship for ship in self.figther.list_Ships if ship.name == ship_name][0]
+                self.figther.sumshot = max(self.figther.sumshot - ship.ship_touch(coor), 1)
+                self.player.map_battle.loc[coor[0], coor[1]] = "^"
+                if len(ship.coor) == 0:
+                    coors = self.figther.find_coor(ship_name)
+                    self.player.assign_value(coors, ".")
+            else:
+                print(f"loupé {self.player.alias}")
+                self.player.map_battle.loc[coor[0], coor[1]] = "~"
 
     def if_victory(self: Self) -> bool:
         """servira pour vérifier sur le while que tout les bateaux adverses ont été coulés"""
