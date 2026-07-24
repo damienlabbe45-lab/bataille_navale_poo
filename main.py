@@ -9,7 +9,8 @@ def input_playeurs(number: int, text: str) -> int:
     while isinstance(user, str):
         user = input(text)
         if user in liste_number_str:
-            return int(user)
+            user= int(user)
+    return user
 
 
 def preparations_battle() -> list[BatlleshipGame]:
