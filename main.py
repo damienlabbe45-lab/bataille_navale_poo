@@ -37,7 +37,7 @@ def preparations_battle() -> list[BatlleshipGame]:
 
     for playeur in range(2):
         ships_playeur: list[str] = []
-        for _ in range(input_playeurs(8, "Indiquez combien de navire vous voulez")):
+        for _ in range(input_playeurs(9, "Indiquez combien de navire vous voulez")):
             ship = choice(ships_names)
             ships_playeur.append(ship)
             ships_names.remove(ship)
