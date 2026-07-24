@@ -17,80 +17,75 @@ class Matrixbatlleship(Seabattle):
             coor = self.find_coor(" ")
             coords_dangerous = self.find_not_coor(" ")
             coor = self.verify_coor(coor, coords_dangerous, length)
-            list_ship = list_dir[:]
+
+            coor_values = None
 
             if "\n" in self.name:
-
-                choose_dir = choice(list_ship)
-                coor_value = choice(coor)
-
+                # L'ordinateur boucle tant qu'il n'a pas trouvé un placement (case + direction) valide
+                while coor_values is None:
+                    coor_value = choice(coor)
+                    choose_dir = choice(list_dir)
+                    coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
             else:
-
+                # Pour l'humain
                 choose_dir = ""
-
                 while not choose_dir:
-
                     coor_value = self.input_coor(coor)
                     choose_dir = self.input_direction(coor_value, length, coords_dangerous)
-
                     if not choose_dir:
-                        print("choissisez une autre case.")
+                        print("Choisissez une autre case.")
 
-            coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
+                coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
+
             self.assign_value(coor_values, ship)
             self.list_Ships.append(Ship(name=ship, coor=coor_values))
+
         self.sumshot = max(sum(map(attrgetter("shot"), self.list_Ships)), 1)
 
     def append_coor(self: Self, coor: tuple[int, str], coors_dangerous: list[tuple[int, str]], direction: str,
-                    number: int) -> list[tuple[int, str]]:
-        """Prend toutes les coordonnées d'un bateau en fonction de sa taille sans jamais la modifier"""
+                    number: int) -> list[tuple[int, str]] | None:
+        """Prend toutes les coordonnées d'un bateau selon UNE direction donnée. Renvoie None si la direction est
+        invalide."""
         dict_string_number = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7, "H": 8, "I": 9, "J": 10}
         cols_letter = list(dict_string_number.keys())
         start_row, start_col = coor[0], coor[1]
         start_col_idx = cols_letter.index(start_col)
-        test_direction = [direction] + [d for d in ["droite", "gauche", "haut", "bas"] if d != direction]
 
-        for d in test_direction:
+        candidate_path = [coor]
 
-            candidate_path = [coor]
-            is_validate: bool = True
+        for i in range(1, number + 1):
 
-            for i in range(1, number + 1):
+            if direction == "droite":
+                next_row = start_row
+                next_col_idx = start_col_idx + i
 
-                if d == "droite":
+            elif direction == "gauche":
+                next_row = start_row
+                next_col_idx = start_col_idx - i
 
-                    next_row = start_row
-                    next_col_idx = start_col_idx + i
+            elif direction == "bas":
+                next_row = start_row + i
+                next_col_idx = start_col_idx
 
-                elif d == "gauche":
+            elif direction == "haut":
+                next_row = start_row - i
+                next_col_idx = start_col_idx
 
-                    next_row = start_row
-                    next_col_idx = start_col_idx - i
+            else:
+                return None
 
-                elif d == "bas":
+            if next_row < 1 or next_row > 10 or next_col_idx < 0 or next_col_idx >= 10:
+                return None
 
-                    next_row = start_row + i
-                    next_col_idx = start_col_idx
+            next_coor = (next_row, cols_letter[next_col_idx])
 
-                elif d == "haut":
+            # Vérification des collisions avec d'autres navires
+            if next_coor in coors_dangerous:
+                return None
 
-                    next_row = start_row - i
-                    next_col_idx = start_col_idx
+            candidate_path.append(next_coor)
 
-                if next_row < 1 or next_row > 10 or next_col_idx < 0 or next_col_idx >= 10:
-                    is_validate = False
-                    break
-
-                next_coor = (next_row, cols_letter[next_col_idx])
-
-                if next_coor in coors_dangerous:
-                    is_validate = False
-                    break
-
-                candidate_path.append(next_coor)
-
-            if is_validate:
-                return candidate_path
+        return candidate_path
 
     def verify_coor(self: Self, coor: list[tuple[int, str]], coors_dangerous: list[tuple[int, str]], number: int
                     ) -> list[tuple[int, str]]:
@@ -128,21 +123,23 @@ class Matrixbatlleship(Seabattle):
         return int(user_row), user_col
 
     def input_direction(self: Self, coor: tuple[int, str], length: int, coords_dangerous: list[tuple[int, str]]) -> str:
-        """Demande à l'utilisateur la direction de son bateau"""
+        """Demande à l'utilisateur la direction de son bateau en lui proposant uniquement les directions valides"""
         valid_direction = []
 
-        for dir in ["haut", "bas", "gauche", "droite"]:
+        for dir_test in ["haut", "bas", "gauche", "droite"]:
+            # Si append_coor renvoie autre chose que None, la direction est valide !
+            if self.append_coor(coor, coords_dangerous, dir_test, length - 1) is not None:
+                valid_direction.append(dir_test)
 
-            if self.append_coor(coor, coords_dangerous, dir, length - 1) is not None:
-                valid_direction.append(dir)
-
+        # Si aucune direction n'est possible depuis cette case (sécurité)
         if not valid_direction:
             return ""
 
         user_dir = ""
-
         while user_dir not in valid_direction:
             print(self.map_battle)
             user_dir = input(
-                f"Dans quel direction, voulez vous mettre le navire {', '.join(valid_direction)}").strip().lower()
+                f"Dans quelle direction voulez-vous mettre le navire ? ({', '.join(valid_direction)}) : "
+            ).strip().lower()
+
         return user_dir
