@@ -1,8 +1,10 @@
 from classes_de_base import Seabattle, Ship
 from typing import Self
 
+
 class Matrixbatlleship(Seabattle):
     """classe pour mettre les bateaux"""
+
     def __init__(self: Self, name: str, list_ships: list[str]) -> None:
         super().__init__(name)
         self.list_Ships: list[Ship] = []
@@ -32,7 +34,6 @@ class Matrixbatlleship(Seabattle):
                     choose_dir = self.input_direction(coor_value, length, coords_dangerous)
 
                     if not choose_dir:
-
                         print("choissisez une autre case.")
 
             coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
@@ -77,21 +78,18 @@ class Matrixbatlleship(Seabattle):
                     next_col_idx = start_col_idx
 
                 if next_row < 1 or next_row > 10 or next_col_idx < 0 or next_col_idx >= 10:
-
                     is_validate = False
                     break
 
                 next_coor = (next_row, cols_letter[next_col_idx])
 
                 if next_coor in coors_dangerous:
-
                     is_validate = False
                     break
 
                 candidate_path.append(next_coor)
 
             if is_validate:
-
                 return candidate_path
 
     def verify_coor(self: Self, coor: list[tuple[int, str]], coors_dangerous: list[tuple[int, str]], number: int
@@ -136,17 +134,14 @@ class Matrixbatlleship(Seabattle):
         for dir in ["haut", "bas", "gauche", "droite"]:
 
             if self.append_coor(coor, coords_dangerous, dir, length - 1) is not None:
-
                 valid_direction.append(dir)
 
         if not valid_direction:
-
             return ""
 
         user_dir = ""
 
         while user_dir not in valid_direction:
-
             print(self.map_battle)
             user_dir = input(
                 f"Dans quel direction, voulez vous mettre le navire {', '.join(valid_direction)}").strip().lower()
