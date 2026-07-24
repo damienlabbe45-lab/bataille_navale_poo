@@ -10,7 +10,7 @@ class BatlleshipGame:
         self.player = Seabattle(name_playeur)
         self.figther = Matrixbatlleship(name_figther, ship_names)
 
-    def choice_computer(self: Self) -> None:
+    def choice_computer(self: Self) -> tuple[int, str]:
         """choix de l'ordinateur pour saisir une coordonnée"""
         from secrets import choice
         coors = self.player.find_coor("^")
