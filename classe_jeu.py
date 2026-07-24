@@ -65,7 +65,9 @@ class BatlleshipGame:
         number = None
         while number is None:
             user_input = input("veillez indiquer les coordonnées pour tirer\n").upper()
-            if user_input[0] not in self.player.map_battle.columns:
+            if len(user_input) < 2:
+                print("veillez saisir au moins 2 caractères")
+            elif user_input[0] not in self.player.map_battle.columns:
                 print("veillez mettre A, B , C, D, E, F, G, H, I, J, au tout début. ce sera le nom de colonne")
             elif user_input[1:].isdigit():
                 number = int(user_input[1:])
