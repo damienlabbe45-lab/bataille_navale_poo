@@ -24,12 +24,15 @@ def preparations_battle() -> list[BatlleshipGame]:
 
     ships_names: list[str] = ["Jupiter", "Zeus", "Aphrodite", "Vénus", "Marth", "Lucina", "Mars", "Arès", "Hades",
                               "Pluton", "Anubis", "Ra", "Mercure", "Hermès", "Athéna", "Minerve", "Minerva", "Corrin",
-                              "Byleth", "Bastet", "Thor", "Odin", "Grima", "Corren", "Casper", "Oscar","Pill", "Halt", 
-                              "Treaty","Oblige", "Seth", "Théménos", "Cyrus", "Hephaïstos", "Cupidon", "Zorro", 
-                              "Lefantôme","Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita", 
-                              "Rhea", "Jaden","Yugi","Tincel", "Einstein", "Anankos", "Flamel", "Daraen", "Ike", 
+                              "Byleth", "Bastet", "Thor", "Odin", "Grima", "Corren", "Casper", "Oscar", "Pill", "Halt",
+                              "Treaty", "Oblige", "Seth", "Théménos", "Cyrus", "Hephaïstos", "Cupidon", "Zorro",
+                              "Lefantôme", "Xana", "Harry", "Potter", "Tsuki", "Onyx", "Wellan", "Nashoba", "Aelita",
+                              "Rhea", "Jaden", "Yugi", "Tincel", "Einstein", "Anankos", "Flamel", "Daraen", "Ike",
                               "Vulcain", "Demeter", "Ceres", "Teal'c", "Carter", "Sephiroth", "Owain", "Jack", 
-                              "Harikeñ"]
+                              "Harikeñ", "Catasfiore", "Vaan", "Balthier", "Agnès", "Casty", "Osvald", "Muriel",
+                              "Anatiel", "Zéphilia", "Tamriel", "Wuunferth", "Yann", "Aucun", "Stole", "Arthur",
+                              "Apollon", "Diane", "Artemis", "Dianthus", "Jedusort", "William", "Ulrich", "Joséphiroth"
+                              , "Jim", "Morales", "Makoto", "Naegi", "Celica", "Yuri", "Moon", "Bernadetta", "Seiros"]
     playeurs: list[BatlleshipGame] = []
 
     for playeur in range(2):
@@ -48,13 +51,7 @@ def battle_game(playeurs: list[BatlleshipGame]) -> None:
     while playeurs[i % 2].if_victory():
         playeur = playeurs[i % 2]
         print(f" c'est à vous {playeur.player.alias}")
-        print(playeur.player.map_battle)
-
-        if "\n" in playeur.player.name:
-            playeur.choice_computer()
-
-        else:
-            playeur.choice_human()
+        playeur.touch_ship()
         i += 1
 
     playeurs[(i + 1) % 2].victory()
