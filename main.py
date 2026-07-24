@@ -2,19 +2,19 @@ from classe_jeu import BatlleshipGame
 from secrets import choice
 
 
-def input_playeurs() -> int:
+def input_playeurs(number: int, text: str) -> int:
     """permet de savoir le nombre de joueurs"""
     user = ""
-    liste_number_str = [str(i) for i in range(3)]
+    liste_number_str = [str(i) for i in range(number)]
     while isinstance(user, str):
-        user = input("Veillez entre le nombre de joueur (entre 0 et 2 inclus)\n")
+        user = input(text)
         if user in liste_number_str:
             return int(user)
 
 
 def preparations_battle() -> list[BatlleshipGame]:
     """préparatifs pour faire la bataille navale"""
-    nb_playeur = input_playeurs()
+    nb_playeur = input_playeurs(3, "Veillez entre le nombre de joueur (entre 0 et 2 inclus)\n")
     list_playeur: list[str] = []
     for _ in range(nb_playeur):
         list_playeur.append(input("entre un nom"))
@@ -37,7 +37,7 @@ def preparations_battle() -> list[BatlleshipGame]:
 
     for playeur in range(2):
         ships_playeur: list[str] = []
-        for _ in range(5):
+        for _ in range(input_playeurs(8, "Indiquez combien de navire vous voulez")):
             ship = choice(ships_names)
             ships_playeur.append(ship)
             ships_names.remove(ship)
