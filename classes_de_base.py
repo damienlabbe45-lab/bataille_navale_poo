@@ -69,13 +69,19 @@ class Matrixbatlleship(Seabattle):
             coords_dangerous = self.find_not_coor(" ")
             coor = self.verify_coor(coor, coords_dangerous, length)
             list_ship = list_dir[:]
-            choose_dir = choice(list_ship)
+
             if "\n" in self.name:
+                choose_dir = choice(list_ship)
                 coor_value = choice(coor)
-                coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
             else:
-                coor_value = self.input_coor(coor)
-                coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
+                choose_dir = ""
+                while not choose_dir:
+                    coor_value = self.input_coor(coor)
+                    choose_dir = self.input_direction(coor_value, length, coords_dangerous)
+                    if not choose_dir:
+                        print("choissisez une autre case.")
+
+            coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
             self.assign_value(coor_values, ship)
             self.list_Ships.append(Ship(name=ship, coor=coor_values))
         self.sumshot = max(sum(map(attrgetter("shot"), self.list_Ships)), 1)
@@ -141,9 +147,34 @@ class Matrixbatlleship(Seabattle):
         user_col = ""
         cols = {str(cols[1]) for cols in coor}
         while user_col not in cols:
+            print(self.map_battle)
             user_col = input(f"Veillez donner le nom d'une colonne parmis celles-ci {', '.join(cols)}")
         rows = {str(row[0]) for row in coor if user_col == row[1]}
         user_row = ""
         while user_row not in rows:
+            print(self.map_battle)
             user_row = input(f"Veillez donner le numéro d'une ligne parmis celles-ci {', '.join(rows)}")
         return int(user_row), user_col
+
+    def input_direction(self: Self, coor: tuple[int, str], length: int, coords_dangerous: ist[tuple[int, str]]) -> str:
+        """Demande à l'utilisateur la direction de son bateau"""
+        valid_direction = []
+
+        for dir in ["haut", "bas", "gauche", "droite"]:
+
+            if self.append_coor(coor, coords_dangerous, dir, length - 1) is not None:
+
+                valid_direction.append(dir)
+
+        if not valid_direction:
+
+            return ""
+
+        user_dir = ""
+
+        while user_dir not in valid_direction:
+
+            print(self.map_battle)
+            user_dir = input(
+                f"Dans quel direction, voulez vous mettre le navire {', '.join(valid_direction)}").strip().lower()
+        return user_dir
