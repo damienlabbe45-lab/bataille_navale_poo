@@ -49,6 +49,7 @@ def battle_game(playeurs: list[BatlleshipGame]) -> None:
     """programme pour faire la bataille navale"""
     i = choice([0, 1])
     while playeurs[i % 2].if_victory():
+
         playeur = playeurs[i % 2]
         print(f" c'est à vous {playeur.player.alias}")
         playeur.touch_ship()
