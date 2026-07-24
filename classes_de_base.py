@@ -39,16 +39,19 @@ class Seabattle(LogErreur):
 class Ship:
     """classe des bateaux"""
     def __init__(self: Self, name: str, coor: list[tuple[int, str]]) -> None:
+        from secrets import SystemRandom
         self.name = name
         self.coor = coor
+        self.shot = SystemRandom().randint(0, 2)
 
-    def ship_touch(self: Self, coor: tuple[int, str]) -> None:
+    def ship_touch(self: Self, coor: tuple[int, str]) -> int:
         """permet de savoir si le navire a été touché ou coulé"""
         if coor in self.coor:
             print(f"{self.name} a été touché")
             self.coor.remove(coor)
         if len(self.coor) == 0:
             print(f"{self.name} a été coulé")
+        return 0 if len(self.coor) != 0 else self.shot
 
 
 class Matrixbatlleship(Seabattle):
@@ -56,9 +59,10 @@ class Matrixbatlleship(Seabattle):
     def __init__(self: Self, name: str, list_ships: list[str]) -> None:
         super().__init__(name)
         self.list_Ships: list[Ship] = []
-        length_ship = [2, 3, 3, 4, 4, 5]
+        length_ship = [int(2 + (i + 1) * 0.5) for i in range(len(list_ships))]
         list_dir = ["haut", "bas", "droite", "gauche"]
         from secrets import choice
+        from operator import attrgetter
         for i, ship in enumerate(list_ships):
             length = length_ship[i]
             coor = self.find_coor(" ")
@@ -74,6 +78,7 @@ class Matrixbatlleship(Seabattle):
                 coor_values = self.append_coor(coor_value, coords_dangerous, choose_dir, length - 1)
             self.assign_value(coor_values, ship)
             self.list_Ships.append(Ship(name=ship, coor=coor_values))
+        self.sumshot = max(sum(map(attrgetter("shot"), self.list_Ships)), 1)
 
     def append_coor(self: Self, coor: tuple[int, str], coors_dangerous: list[tuple[int, str]], direction: str,
                     number: int) -> list[tuple[int, str]]:
@@ -134,7 +139,7 @@ class Matrixbatlleship(Seabattle):
     def input_coor(self: Self, coor: list[tuple[int, str]]) -> tuple[int, str]:
         """demande à l'utilisateur les coordonnées pour mettre un bateau"""
         user_col = ""
-        cols = { str(cols[1]) for cols in coor}
+        cols = {str(cols[1]) for cols in coor}
         while user_col not in cols:
             user_col = input(f"Veillez donner le nom d'une colonne parmis celles-ci {', '.join(cols)}")
         rows = {str(row[0]) for row in coor if user_col == row[1]}
